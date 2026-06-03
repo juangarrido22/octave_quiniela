@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Octave Quiniela · Q3 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f5f3ef;
+  --surface: #ffffff;
+  --surface2: #f9f8f6;
+  --surface3: #f0ede8;
+  --border: #e8e4de;
+  --border-strong: #d4cfc8;
+  --text: #1a1816;
+  --text-2: #5a5550;
+  --text-3: #9e9790;
+  --accent: #ff5c35;
+  --accent-light: #fff1ee;
+  --accent-dark: #d94420;
+  --green: #00b37e;
+  --green-light: #e6f9f3;
+  --amber: #f59e0b;
+  --amber-light: #fef3c7;
+  --red: #ef4444;
+  --red-light: #fef2f2;
+  --blue: #3b82f6;
+  --blue-light: #eff6ff;
+  --purple: #8b5cf6;
+  --purple-light: #f5f3ff;
+  --font: 'Plus Jakarta Sans', sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --radius-xs: 6px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
+  --shadow-lg: 0 4px 24px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.06);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;line-height:1.5;overflow-x:hidden;}
+
+.header{background:var(--surface);border-bottom:1px solid var(--border);padding:0 1.5rem;position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;height:64px;}
+.header-brand{display:flex;align-items:center;gap:10px;}
+.brand-icon{width:36px;height:36px;background:var(--accent);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;}
+.brand-name{font-size:16px;font-weight:800;letter-spacing:-0.02em;}
+.brand-sub{font-size:12px;color:var(--text-3);margin-top:-2px;}
+.header-badge{background:var(--accent-light);color:var(--accent);border-radius:20px;padding:5px 12px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:6px;}
+.live-dot{width:7px;height:7px;background:var(--accent);border-radius:50%;animation:livepulse 1.8s infinite;}
+@keyframes livepulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(0.7);}}
+
+.nav{background:var(--surface);border-bottom:1px solid var(--border);padding:0 1.5rem;display:flex;gap:4px;overflow-x:auto;}
+.nav-btn{background:none;border:none;color:var(--text-3);font-family:var(--font);font-size:13px;font-weight:600;padding:0 4px;height:48px;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all 0.18s;white-space:nowrap;display:flex;align-items:center;gap:7px;}
+.nav-btn:hover{color:var(--text-2);}
+.nav-btn.active{color:var(--accent);border-bottom-color:var(--accent);}
+.nav-count{background:var(--surface3);color:var(--text-2);border-radius:20px;padding:1px 7px;font-size:11px;font-weight:700;}
+.nav-btn.active .nav-count{background:var(--accent-light);color:var(--accent);}
+
+.main{max-width:820px;margin:0 auto;padding:1.5rem;}
+.panel{display:none;animation:slideIn 0.25s ease;}
+.panel.active{display:block;}
+@keyframes slideIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+
+.prize-card{background:linear-gradient(135deg,#ff5c35 0%,#ff8c42 50%,#ffb347 100%);border-radius:var(--radius);padding:1.75rem 2rem;margin-bottom:1.25rem;position:relative;overflow:hidden;}
+.prize-card::before{content:'🏆';position:absolute;right:1.5rem;bottom:-8px;font-size:88px;opacity:0.15;transform:rotate(-15deg);pointer-events:none;}
+.prize-eyebrow{font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.75);margin-bottom:6px;}
+.prize-headline{font-size:26px;font-weight:800;color:#fff;line-height:1.15;margin-bottom:14px;letter-spacing:-0.02em;}
+.prize-options{display:flex;gap:8px;flex-wrap:wrap;}
+.prize-chip{background:rgba(255,255,255,0.22);border:1px solid rgba(255,255,255,0.35);backdrop-filter:blur(4px);border-radius:20px;padding:6px 14px;font-size:13px;font-weight:700;color:#fff;display:flex;align-items:center;gap:6px;}
+
+.kpi-alert{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 18px;margin-bottom:1.25rem;display:flex;align-items:flex-start;gap:12px;}
+.kpi-alert-icon{width:36px;height:36px;background:var(--amber-light);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.kpi-alert-title{font-size:13px;font-weight:700;margin-bottom:4px;}
+.kpi-alert-sub{font-size:12px;color:var(--text-2);}
+.kpi-chips{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;}
+.kpi-chip{background:var(--amber-light);color:#92400e;border:1px solid #fde68a;border-radius:20px;padding:3px 10px;font-size:12px;font-weight:700;}
+
+/* cold call context box */
+.context-box{background:var(--blue-light);border:1px solid #bfdbfe;border-radius:var(--radius-sm);padding:14px 18px;margin-bottom:1.25rem;display:flex;align-items:flex-start;gap:12px;}
+.context-box-icon{width:36px;height:36px;background:#dbeafe;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.context-box-title{font-size:13px;font-weight:700;margin-bottom:4px;color:#1e40af;}
+.context-box-sub{font-size:12px;color:#3b82f6;line-height:1.5;}
+.context-box-dims{display:flex;flex-direction:column;gap:4px;margin-top:10px;}
+.context-dim{font-size:11px;color:#1e40af;display:flex;gap:6px;align-items:flex-start;}
+.context-dim-name{font-weight:700;min-width:100px;flex-shrink:0;}
+
+.form-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.5rem;margin-bottom:1.25rem;box-shadow:var(--shadow);}
+.form-card-title{font-size:15px;font-weight:800;margin-bottom:1.25rem;letter-spacing:-0.01em;}
+.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.field{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;}
+.field:last-of-type{margin-bottom:0;}
+.field-label{font-size:11px;font-weight:700;color:var(--text-2);letter-spacing:0.04em;text-transform:uppercase;}
+.field-control{background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--radius-xs);color:var(--text);font-family:var(--font);font-size:14px;padding:10px 12px;outline:none;transition:border-color 0.15s,box-shadow 0.15s;}
+.field-control:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(255,92,53,0.1);background:var(--surface);}
+.field-control option{background:#fff;}
+textarea.field-control{min-height:160px;resize:vertical;font-size:13px;line-height:1.6;}
+
+.transcript-hint{font-size:11px;color:var(--text-3);margin-top:5px;line-height:1.5;}
+.transcript-hint strong{color:var(--text-2);}
+
+.btn-analyze{width:100%;background:var(--accent);color:#fff;border:none;border-radius:var(--radius-sm);padding:14px;font-family:var(--font);font-size:14px;font-weight:700;cursor:pointer;margin-top:12px;transition:all 0.18s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.btn-analyze:hover{background:var(--accent-dark);transform:translateY(-1px);box-shadow:0 4px 16px rgba(255,92,53,0.35);}
+.btn-analyze:active{transform:translateY(0);box-shadow:none;}
+.btn-analyze:disabled{opacity:0.45;cursor:not-allowed;transform:none;box-shadow:none;}
+.btn-submit{width:100%;background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:12px;font-family:var(--font);font-size:13px;font-weight:700;color:var(--text-2);cursor:pointer;transition:all 0.18s;margin-top:8px;display:none;}
+.btn-submit:hover{border-color:var(--green);color:var(--green);background:var(--green-light);}
+.btn-submit.visible{display:block;}
+
+.loading-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:3rem 2rem;text-align:center;display:none;margin-bottom:1.25rem;box-shadow:var(--shadow);}
+.loading-card.visible{display:block;}
+.spinner{width:44px;height:44px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.65s linear infinite;margin:0 auto 1rem;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.loading-msg{font-size:14px;font-weight:600;color:var(--text-2);}
+.loading-sub{font-size:12px;color:var(--text-3);margin-top:4px;}
+
+.result-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);overflow:hidden;display:none;margin-bottom:1.25rem;box-shadow:var(--shadow-lg);}
+.result-card.visible{display:block;animation:slideIn 0.3s ease;}
+.result-header{padding:1.25rem 1.5rem;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;}
+.result-sdr-name{font-size:19px;font-weight:800;letter-spacing:-0.02em;}
+.result-meta{font-size:12px;color:var(--text-3);margin-top:2px;font-family:var(--mono);}
+.status-pill{border-radius:20px;padding:5px 14px;font-size:12px;font-weight:700;white-space:nowrap;flex-shrink:0;}
+.status-q{background:var(--green-light);color:#065f46;}
+.status-n{background:var(--amber-light);color:#92400e;}
+.status-nq{background:var(--red-light);color:#991b1b;}
+
+.result-scores{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--surface2);}
+.score-cell{padding:1rem 1.25rem;border-right:1px solid var(--border);}
+.score-cell:last-child{border-right:none;}
+.score-cell-lbl{font-size:10px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px;}
+.score-cell-val{font-size:24px;font-weight:800;letter-spacing:-0.03em;line-height:1;}
+.score-cell-unit{font-size:13px;color:var(--text-3);font-weight:400;}
+
+.result-body{padding:1.5rem;}
+.sec-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-3);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+.sec-gap{margin-bottom:1.5rem;}
+
+.dim-list{display:flex;flex-direction:column;gap:8px;}
+.dim-item{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:var(--surface2);border-radius:var(--radius-xs);border:1px solid var(--border);}
+.dim-badge{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;flex-shrink:0;margin-top:1px;}
+.dim-0{background:var(--red-light);color:#991b1b;}
+.dim-1{background:var(--amber-light);color:#92400e;}
+.dim-2{background:var(--green-light);color:#065f46;}
+.dim-body{flex:1;}
+.dim-name{font-size:13px;font-weight:700;margin-bottom:2px;}
+.dim-what{font-size:11px;color:var(--text-3);margin-bottom:4px;font-style:italic;}
+.dim-evidence{font-size:12px;color:var(--text-2);line-height:1.45;}
+
+.q-list{display:flex;flex-direction:column;gap:6px;}
+.q-item{display:flex;align-items:center;gap:10px;padding:9px 14px;border-radius:var(--radius-xs);background:var(--surface2);border:1px solid var(--border);}
+.q-check{width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;flex-shrink:0;}
+.q-y{background:var(--green-light);color:#065f46;}
+.q-n{background:var(--red-light);color:#991b1b;}
+.q-text{font-size:12px;color:var(--text-2);flex:1;line-height:1.4;}
+.q-stars{font-size:12px;color:var(--amber);white-space:nowrap;}
+
+.coaching-list{display:flex;flex-direction:column;gap:8px;}
+.coaching-item{display:flex;gap:12px;padding:12px 14px;border-radius:var(--radius-xs);background:var(--surface2);border:1px solid var(--border);}
+.coaching-num{width:22px;height:22px;background:var(--accent-light);color:var(--accent);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
+.coaching-text{font-size:13px;color:var(--text-2);line-height:1.5;}
+
+/* leaderboard */
+.lb-hero{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem;margin-bottom:1.25rem;box-shadow:var(--shadow);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+.lb-hero-title{font-size:20px;font-weight:800;letter-spacing:-0.02em;}
+.lb-hero-sub{font-size:12px;color:var(--text-3);margin-top:2px;font-family:var(--mono);}
+.lb-sort{background:var(--surface2);border:1.5px solid var(--border);border-radius:var(--radius-xs);color:var(--text);font-family:var(--font);font-size:13px;font-weight:600;padding:8px 12px;outline:none;cursor:pointer;transition:border-color 0.15s;}
+.lb-sort:focus{border-color:var(--accent);}
+.lb-sort option{background:#fff;}
+
+.kpi-panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem 1.5rem;margin-bottom:1.25rem;box-shadow:var(--shadow);}
+.kpi-panel-title{font-size:13px;font-weight:700;margin-bottom:1rem;display:flex;align-items:center;gap:8px;}
+.kpi-legend{display:flex;gap:12px;margin-left:auto;}
+.kpi-legend-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text-3);font-weight:600;}
+.legend-dot{width:8px;height:8px;border-radius:50%;}
+.kpi-rows{display:flex;flex-direction:column;gap:10px;}
+.kpi-row{display:flex;align-items:center;gap:12px;}
+.kpi-sdr-label{font-size:13px;font-weight:600;min-width:72px;display:flex;align-items:center;gap:8px;}
+.kpi-mini-av{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;flex-shrink:0;}
+.kpi-bars-col{flex:1;display:flex;flex-direction:column;gap:4px;}
+.kpi-track{height:7px;background:var(--surface3);border-radius:4px;overflow:hidden;}
+.kpi-fill-s1{height:100%;background:var(--green);border-radius:4px;transition:width 0.7s cubic-bezier(0.16,1,0.3,1);}
+.kpi-fill-s2{height:100%;background:var(--blue);border-radius:4px;transition:width 0.7s cubic-bezier(0.16,1,0.3,1);}
+.kpi-vals{font-family:var(--mono);font-size:11px;color:var(--text-3);min-width:90px;text-align:right;}
+
+.lb-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);}
+.lb-row{display:flex;align-items:center;gap:12px;padding:14px 20px;border-bottom:1px solid var(--border);transition:background 0.15s;}
+.lb-row:last-child{border-bottom:none;}
+.lb-row:hover{background:var(--surface2);}
+.lb-rank{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--text-3);min-width:28px;}
+.rank-1{color:#d97706;}.rank-2{color:#71717a;}.rank-3{color:#92400e;}
+.lb-av{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0;}
+.lb-info{flex:1;min-width:0;}
+.lb-name{font-size:15px;font-weight:700;letter-spacing:-0.01em;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.lb-meta{font-size:11px;color:var(--text-3);margin-top:2px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.badge-winner{background:var(--accent-light);color:var(--accent);border-radius:20px;padding:2px 9px;font-size:10px;font-weight:800;letter-spacing:0.04em;}
+.badge-eligible{background:var(--green-light);color:#065f46;border-radius:20px;padding:2px 9px;font-size:10px;font-weight:700;}
+.badge-ineligible{background:var(--surface3);color:var(--text-3);border-radius:20px;padding:2px 9px;font-size:10px;font-weight:700;}
+.badge-leader{background:var(--purple-light);color:var(--purple);border-radius:20px;padding:2px 9px;font-size:10px;font-weight:700;}
+.lb-kpis{display:flex;flex-direction:column;gap:3px;align-items:flex-end;}
+.kpi-tag{font-family:var(--mono);font-size:10px;font-weight:600;display:flex;align-items:center;gap:4px;}
+.kpi-tag-dot{width:6px;height:6px;border-radius:50%;}
+.lb-bar-col{width:80px;}
+.lb-bar-track{height:5px;background:var(--surface3);border-radius:3px;overflow:hidden;}
+.lb-bar-fill{height:100%;background:var(--accent);border-radius:3px;transition:width 0.6s cubic-bezier(0.16,1,0.3,1);}
+.lb-score{text-align:right;min-width:52px;}
+.lb-score-big{font-size:20px;font-weight:800;letter-spacing:-0.03em;font-family:var(--mono);}
+.lb-score-unit{font-size:11px;color:var(--text-3);}
+
+.filter-row{display:flex;gap:8px;margin-bottom:1.25rem;flex-wrap:wrap;}
+.filter-row select{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius-xs);color:var(--text);font-family:var(--font);font-size:13px;font-weight:600;padding:8px 12px;outline:none;cursor:pointer;}
+.filter-row select:focus{border-color:var(--accent);}
+
+.hist-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 18px;margin-bottom:8px;display:flex;align-items:center;gap:14px;transition:all 0.15s;box-shadow:var(--shadow);}
+.hist-card:hover{border-color:var(--border-strong);box-shadow:var(--shadow-lg);transform:translateY(-1px);}
+.hist-av{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0;}
+.hist-info{flex:1;min-width:0;}
+.hist-account{font-size:14px;font-weight:700;}
+.hist-meta{font-size:11px;color:var(--text-3);margin-top:2px;font-family:var(--mono);}
+.hist-score{font-size:22px;font-weight:800;font-family:var(--mono);text-align:right;}
+.hist-score-unit{font-size:12px;color:var(--text-3);font-weight:400;}
+
+.empty{text-align:center;padding:4rem 2rem;color:var(--text-3);}
+.empty-emoji{font-size:48px;margin-bottom:12px;}
+.empty-title{font-size:15px;font-weight:700;color:var(--text-2);margin-bottom:4px;}
+.empty-sub{font-size:13px;}
+
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;z-index:999;background:var(--text);color:#fff;border-radius:var(--radius-sm);padding:12px 20px;font-size:13px;font-weight:700;transform:translateY(80px);opacity:0;transition:all 0.3s cubic-bezier(0.16,1,0.3,1);display:flex;align-items:center;gap:8px;}
+.toast.show{transform:translateY(0);opacity:1;}
+
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--border-strong);border-radius:4px;}
+
+@media(max-width:600px){
+  .field-grid{grid-template-columns:1fr;}
+  .result-scores{grid-template-columns:1fr 1fr;}
+  .lb-bar-col{display:none;}
+  .prize-options{flex-direction:column;}
+  .main{padding:1rem;}
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-brand">
+    <div class="brand-icon">📞</div>
+    <div>
+      <div class="brand-name">Octave Quiniela</div>
+      <div class="brand-sub">Cold Call Edition · EMIA ADRs</div>
+    </div>
+  </div>
+  <div class="header-badge">
+    <div class="live-dot"></div>
+    Q3 2026
+  </div>
+</header>
+
+<nav class="nav">
+  <button class="nav-btn active" onclick="showPanel('submit')">📞 Submit Call</button>
+  <button class="nav-btn" onclick="showPanel('leaderboard')">🏆 Leaderboard</button>
+  <button class="nav-btn" onclick="showPanel('history')">📋 History <span class="nav-count" id="nav-count">0</span></button>
+</nav>
+
+<main class="main">
+
+  <!-- SUBMIT -->
+  <div id="panel-submit" class="panel active">
+
+    <div class="prize-card">
+      <div class="prize-eyebrow">Q3 2026 · Winner takes all</div>
+      <div class="prize-headline">Go deeper.<br>Win bigger.</div>
+      <div class="prize-options">
+        <div class="prize-chip">💶 €600 cash</div>
+        <div class="prize-chip">🎧 Apple AirPods Max</div>
+        <div class="prize-chip">✈️ 4 days extra vacation</div>
+      </div>
+    </div>
+
+    <div class="kpi-alert">
+      <div class="kpi-alert-icon">⚡</div>
+      <div>
+        <div class="kpi-alert-title">Hit both KPI targets to be eligible for the prize</div>
+        <div class="kpi-alert-sub">High score alone doesn't win. You need the numbers AND the habit behind it.</div>
+        <div class="kpi-chips">
+          <span class="kpi-chip">10 × S1 qualified meetings</span>
+          <span class="kpi-chip">5 × S2 meetings held</span>
+          <span class="kpi-chip">26 calls submitted (2/week)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="context-box">
+      <div class="context-box-icon">🎯</div>
+      <div>
+        <div class="context-box-title">How cold calls are scored here</div>
+        <div class="context-box-sub">We only hear you — not the prospect. So Claude scores your <strong>technique and setup</strong>, not what the prospect said. The question is: did you create the conditions for a real conversation?</div>
+        <div class="context-box-dims">
+          <div class="context-dim"><span class="context-dim-name">Situation</span> Did you show you know their world before pitching?</div>
+          <div class="context-dim"><span class="context-dim-name">Pain</span> Did you name a specific pain and create space for them to confirm it?</div>
+          <div class="context-dim"><span class="context-dim-name">Impact</span> Did you connect that pain to a real business consequence?</div>
+          <div class="context-dim"><span class="context-dim-name">Right Account</span> Did you show why this company specifically is a fit?</div>
+          <div class="context-dim"><span class="context-dim-name">Right Persona</span> Did you speak to their role and priorities, not a generic pitch?</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <div class="form-card-title">🎙️ Score my cold call</div>
+
+      <div class="field-grid">
+        <div class="field">
+          <label class="field-label">Your name</label>
+          <select id="sdr-name" class="field-control">
+            <option value="">Select...</option>
+            <option>Xav</option><option>Julie</option><option>Olga</option>
+            <option>Tibor</option><option>Olivier</option><option>Daria</option>
+            <option>Ilaria</option><option>Rayan</option><option>Camila</option>
+            <option value="Andrea">Andrea (Leader)</option>
+            <option value="Juergen">Juergen (Leader)</option>
+            <option value="Simone">Simone (Leader)</option>
+            <option value="Juan">Juan (Leader)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="field-label">Account name</label>
+          <input type="text" id="account-name" class="field-control" placeholder="e.g. Repsol, CEPSA, Galp..." />
+        </div>
+      </div>
+
+      <div class="field-grid">
+        <div class="field">
+          <label class="field-label">Contact role</label>
+          <input type="text" id="contact-role" class="field-control" placeholder="e.g. Plant Manager, Head of Ops..." />
+        </div>
+        <div class="field">
+          <label class="field-label">Log a KPI with this call</label>
+          <select id="kpi-type" class="field-control">
+            <option value="none">No KPI update</option>
+            <option value="s1">+1 S1 qualified meeting</option>
+            <option value="s2">+1 S2 meeting held</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="field-label">Call transcript or notes</label>
+        <textarea id="transcript" class="field-control" placeholder="Paste your Salesloft transcript here, or write out what you said during the call. Include your opener, pitch, any objections you handled, and how you closed..."></textarea>
+        <div class="transcript-hint">
+          💡 <strong>From Salesloft:</strong> Open the call recording → click the Transcript tab → copy and paste here. No prospect responses needed — just your side of the call.
+        </div>
+      </div>
+
+      <button class="btn-analyze" id="analyze-btn" onclick="analyzeCall()">
+        <span>⚡</span> Analyze &amp; Score My Call
+      </button>
+    </div>
+
+    <div class="loading-card" id="loading-card">
+      <div class="spinner"></div>
+      <div class="loading-msg">Scoring your cold call...</div>
+      <div class="loading-sub">Evaluating technique, depth and setup quality</div>
+    </div>
+
+    <div class="result-card" id="result-card">
+      <div class="result-header">
+        <div>
+          <div class="result-sdr-name" id="res-sdr"></div>
+          <div class="result-meta" id="res-meta"></div>
+        </div>
+        <span class="status-pill" id="res-status"></span>
+      </div>
+      <div class="result-scores">
+        <div class="score-cell">
+          <div class="score-cell-lbl">Total score</div>
+          <div class="score-cell-val" id="res-total">—<span class="score-cell-unit">/10</span></div>
+        </div>
+        <div class="score-cell">
+          <div class="score-cell-lbl">Techniques used</div>
+          <div class="score-cell-val" id="res-qasked">—<span class="score-cell-unit">/6</span></div>
+        </div>
+        <div class="score-cell">
+          <div class="score-cell-lbl">Avg technique quality</div>
+          <div class="score-cell-val" id="res-qavg">—<span class="score-cell-unit">/5</span></div>
+        </div>
+        <div class="score-cell">
+          <div class="score-cell-lbl">Verdict</div>
+          <div class="score-cell-val" id="res-verdict" style="font-size:13px;padding-top:4px;line-height:1.3;">—</div>
+        </div>
+      </div>
+      <div class="result-body">
+        <div class="sec-label sec-gap">Dimension scores</div>
+        <div class="dim-list sec-gap" id="res-dims"></div>
+        <div class="sec-label sec-gap">Technique checklist</div>
+        <div class="q-list sec-gap" id="res-questions"></div>
+        <div class="sec-label sec-gap">Coaching notes</div>
+        <div class="coaching-list" id="res-coaching"></div>
+      </div>
+    </div>
+
+    <button class="btn-submit" id="btn-submit" onclick="submitToLeaderboard()">
+      ✅ Submit to Leaderboard
+    </button>
+  </div>
+
+  <!-- LEADERBOARD -->
+  <div id="panel-leaderboard" class="panel">
+    <div class="lb-hero">
+      <div>
+        <div class="lb-hero-title">Q3 Ranking 🏆</div>
+        <div class="lb-hero-sub">Jul — Sep 2026 · Ranked by avg score · Tiebreaker: most Strong calls</div>
+      </div>
+      <select class="lb-sort" id="lb-sort" onchange="renderLeaderboard()">
+        <option value="avg">Sort by avg score</option>
+        <option value="calls">Sort by calls submitted</option>
+        <option value="s1">Sort by S1 meetings</option>
+        <option value="s2">Sort by S2 meetings</option>
+      </select>
+    </div>
+
+    <div class="kpi-panel">
+      <div class="kpi-panel-title">
+        KPI Progress
+        <div class="kpi-legend">
+          <div class="kpi-legend-item"><div class="legend-dot" style="background:var(--green)"></div>S1 (target 10)</div>
+          <div class="kpi-legend-item"><div class="legend-dot" style="background:var(--blue)"></div>S2 (target 5)</div>
+          <div class="kpi-legend-item"><div class="legend-dot" style="background:var(--accent)"></div>Calls (min 26)</div>
+        </div>
+      </div>
+      <div class="kpi-rows" id="kpi-rows"></div>
+    </div>
+
+    <div class="lb-card" id="lb-rows"></div>
+  </div>
+
+  <!-- HISTORY -->
+  <div id="panel-history" class="panel">
+    <div class="filter-row">
+      <select id="hist-sdr" onchange="renderHistory()">
+        <option value="">All ADRs</option>
+        <option>Xav</option><option>Julie</option><option>Olga</option>
+        <option>Tibor</option><option>Olivier</option><option>Daria</option>
+        <option>Ilaria</option><option>Rayan</option><option>Camila</option>
+        <option>Andrea</option><option>Juergen</option><option>Simone</option>
+        <option>Juan</option>
+      </select>
+      <select id="hist-status" onchange="renderHistory()">
+        <option value="">All results</option>
+        <option value="STRONG COLD CALL">✅ Strong</option>
+        <option value="DEVELOPING">⚠️ Developing</option>
+        <option value="NEEDS WORK">❌ Needs work</option>
+      </select>
+    </div>
+    <div id="history-list"></div>
+  </div>
+
+</main>
+
+<div class="toast" id="toast"><span id="toast-icon"></span><span id="toast-msg"></span></div>
+
+<script>
+const STORAGE_H = 'octave_q3_coldcall_v1';
+const STORAGE_K = 'octave_q3_kpis_v2';
+
+const SDRS = ['Xav','Julie','Olga','Tibor','Olivier','Daria','Ilaria','Rayan','Camila','Andrea','Juergen','Simone','Juan'];
+const LEADERS = ['Andrea','Juergen','Simone','Juan'];
+
+const COLORS = {
+  Xav:     {bg:'#fff1ee',color:'#ff5c35'},
+  Julie:   {bg:'#f5f3ff',color:'#8b5cf6'},
+  Olga:    {bg:'#eff6ff',color:'#3b82f6'},
+  Tibor:   {bg:'#e6f9f3',color:'#00b37e'},
+  Olivier: {bg:'#fef3c7',color:'#d97706'},
+  Daria:   {bg:'#fdf2f8',color:'#db2777'},
+  Ilaria:  {bg:'#f0fdf4',color:'#16a34a'},
+  Rayan:   {bg:'#f0f9ff',color:'#0284c7'},
+  Camila:  {bg:'#fff7ed',color:'#ea580c'},
+  Andrea:  {bg:'#faf5ff',color:'#7c3aed'},
+  Juergen: {bg:'#f1f5f9',color:'#475569'},
+  Simone:  {bg:'#fdf4ff',color:'#a21caf'},
+  Juan:    {bg:'#e0f2fe',color:'#0369a1'},
+};
+
+const DIM_DESCRIPTIONS = {
+  'Situation':     'Did you show you know their world before pitching?',
+  'Pain':          'Did you name a specific pain and create space for them to confirm it?',
+  'Impact':        'Did you connect that pain to a real business consequence?',
+  'Right Account': 'Did you show why this company specifically is a fit?',
+  'Right Persona': 'Did you speak to their role and priorities, not a generic pitch?',
+};
+
+function initials(n){ return n.slice(0,2).toUpperCase(); }
+
+let history=[], kpis={}, currentResult=null, currentSDR=null, currentKpi='none';
+
+function loadState(){
+  try{ history=JSON.parse(localStorage.getItem(STORAGE_H)||'[]'); }catch{ history=[]; }
+  try{ kpis=JSON.parse(localStorage.getItem(STORAGE_K)||'{}'); }catch{ kpis={}; }
+  SDRS.forEach(s=>{ if(!kpis[s]) kpis[s]={s1:0,s2:0}; });
+  updateNavCount();
+}
+
+function saveState(){
+  localStorage.setItem(STORAGE_H, JSON.stringify(history));
+  localStorage.setItem(STORAGE_K, JSON.stringify(kpis));
+  updateNavCount();
+}
+
+function updateNavCount(){
+  document.getElementById('nav-count').textContent = history.length;
+}
+
+function showPanel(id){
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelector(`.nav-btn[onclick="showPanel('${id}')"]`).classList.add('active');
+  document.getElementById('panel-'+id).classList.add('active');
+  if(id==='leaderboard') renderLeaderboard();
+  if(id==='history') renderHistory();
+}
+
+async function analyzeCall(){
+  const sdr = document.getElementById('sdr-name').value;
+  const account = document.getElementById('account-name').value.trim();
+  const role = document.getElementById('contact-role').value.trim();
+  const kpiType = document.getElementById('kpi-type').value;
+  const transcript = document.getElementById('transcript').value.trim();
+
+  if(!sdr){ showToast('⚠️','Select your name'); return; }
+  if(!account){ showToast('⚠️','Enter the account name'); return; }
+  if(transcript.length<30){ showToast('⚠️','Paste a transcript or call notes'); return; }
+
+  currentSDR=sdr; currentKpi=kpiType;
+
+  document.getElementById('analyze-btn').disabled=true;
+  document.getElementById('loading-card').classList.add('visible');
+  document.getElementById('result-card').classList.remove('visible');
+  document.getElementById('btn-submit').classList.remove('visible');
+
+  const sys = `You are a cold call coaching analyst for Octave (spun off from Hexagon), an industrial digitalization company covering EMIA.
+Octave's ADRs make cold calls via Salesloft to large industrial enterprises (Repsol, CEPSA, Galp, Eni, TotalEnergies, BASF, etc).
+
+IMPORTANT CONTEXT: You only hear the ADR's side of the call — not the prospect. This is intentional.
+You are scoring the ADR's TECHNIQUE and SETUP quality, not the prospect's responses.
+The goal is to assess whether the ADR created the conditions for a real conversation to happen.
+Score what the ADR DID — their language, their questions, their framing — not what the prospect said back.
+
+SCORING DIMENSIONS (0-2 each, max 10 total):
+
+Situation (0-2): Did the ADR demonstrate knowledge of the prospect's world BEFORE pitching?
+  0 = Generic opener with no situational awareness. Could have called anyone.
+  1 = Brief reference to industry or role but surface-level, no specifics.
+  2 = Clear signal they know this company/role — referenced specific context, industry pain, or company situation.
+
+Pain (0-2): Did the ADR name a specific pain relevant to this profile AND create space for the prospect to confirm or deny it?
+  0 = Pitched features/product with no mention of a problem. Or named pain too generically.
+  1 = Named a pain but didn't make it feel specific to this person, or didn't pause/invite confirmation.
+  2 = Named a sharp, specific pain for this industry/role AND asked a question or paused to let the prospect engage with it.
+
+Impact (0-2): Did the ADR connect the pain to a real business consequence — cost, risk, time, compliance, productivity?
+  0 = No business impact mentioned. Just product or features.
+  1 = Vague reference to "saving time" or "improving efficiency" without specifics.
+  2 = Named a tangible consequence — hours lost, cost of downtime, compliance risk, revenue impact — relevant to their industry.
+
+Right Account (0-2): Did the ADR demonstrate why THIS specific company is a fit for Octave, not a generic pitch?
+  0 = Nothing company-specific. Could have been sent to any prospect.
+  1 = Mentioned the industry but no company-specific angle.
+  2 = Referenced something specific about this company — size, known challenge, plant environment, recent news, or sector fit — that shows research.
+
+Right Persona (0-2): Did the ADR address this person's specific role and priorities, not deliver a generic pitch?
+  0 = No reference to the contact's role or responsibilities.
+  1 = Mentioned the role name but didn't tailor the message to what that role actually cares about.
+  2 = Spoke directly to this persona's priorities — what they're responsible for, what keeps them up at night — in language that resonates with that role.
+
+QUALIFICATION THRESHOLDS:
+7-10 = STRONG COLD CALL — Good depth, real attempt to engage.
+4-6 = DEVELOPING — Some technique present but gaps. Key dimensions missing.
+0-3 = NEEDS WORK — Generic pitch, no depth attempt.
+
+TECHNIQUE CHECKLIST — assess whether the ADR used each technique:
+1. "Pattern interrupt opener" — Did they open with something unexpected that earns attention, not a standard "Hi I'm X from Y"?
+2. "Named a specific company/role context" — Did they reference something specific to this prospect's situation?
+3. "Stated a specific pain, not a feature" — Did they lead with a problem, not a product?
+4. "Created space — asked a question or paused" — Did they invite the prospect to respond rather than monologue?
+5. "Mentioned a business impact or consequence" — Did they make the pain feel costly or urgent?
+6. "Clear single CTA" — Did they end with one clear, easy ask?
+
+SCORING SCALE for technique quality (1-5): 1=very weak, 2=weak, 3=average, 4=good, 5=excellent.
+
+Respond ONLY with compact valid JSON, no markdown, no extra text:
+{"total":<0-10>,"status":"STRONG COLD CALL"|"DEVELOPING"|"NEEDS WORK","rationale":"<max 18 words, specific to what they did or didn't do>","dimensions":[{"name":"Situation","score":0|1|2,"evidence":"<what the ADR said or didn't say, max 14 words>"},{"name":"Pain","score":0|1|2,"evidence":"<max 14 words>"},{"name":"Impact","score":0|1|2,"evidence":"<max 14 words>"},{"name":"Right Account","score":0|1|2,"evidence":"<max 14 words>"},{"name":"Right Persona","score":0|1|2,"evidence":"<max 14 words>"}],"questions":[{"q":"Pattern interrupt opener","asked":"Y"|"N","quality":1|2|3|4|5},{"q":"Named specific company/role context","asked":"Y"|"N","quality":1|2|3|4|5},{"q":"Led with a specific pain, not a feature","asked":"Y"|"N","quality":1|2|3|4|5},{"q":"Created space — asked a question or paused","asked":"Y"|"N","quality":1|2|3|4|5},{"q":"Named a business impact or consequence","asked":"Y"|"N","quality":1|2|3|4|5},{"q":"Clear single CTA","asked":"Y"|"N","quality":1|2|3|4|5}],"coaching":["<very specific, reference exactly what they said or missed, point 1>","<point 2>","<point 3>"]}`;
+
+  try {
+    const res = await fetch('/api/analyze',{
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model:'claude-sonnet-4-20250514', max_tokens:1000, system:sys,
+        messages:[{role:'user', content:`ADR: ${sdr}\nAccount: ${account}\nContact role: ${role||'unknown'}\n\nCALL TRANSCRIPT (ADR side only):\n${transcript}`}]
+      })
+    });
+    const data = await res.json();
+    const raw = data.content.map(i=>i.text||'').join('').replace(/```json|```/g,'').trim();
+    const result = JSON.parse(raw);
+    currentResult = {sdr, account, role, date:new Date().toLocaleDateString('en-GB'), result};
+    renderResult(currentResult);
+  } catch(e) {
+    document.getElementById('loading-card').innerHTML='<div style="color:var(--red);font-size:13px;font-weight:600;">❌ Error analyzing call. Please try again.</div>';
+  }
+  document.getElementById('analyze-btn').disabled=false;
+}
+
+function renderResult(d){
+  const {sdr,account,role,result}=d;
+  document.getElementById('loading-card').classList.remove('visible');
+  document.getElementById('result-card').classList.add('visible');
+  document.getElementById('btn-submit').classList.add('visible');
+
+  document.getElementById('res-sdr').textContent=sdr;
+  document.getElementById('res-meta').textContent=account+(role?' · '+role:'');
+
+  const sEl=document.getElementById('res-status');
+  if(result.status==='STRONG COLD CALL'){sEl.className='status-pill status-q';sEl.textContent='✅ Strong cold call';}
+  else if(result.status==='DEVELOPING'){sEl.className='status-pill status-n';sEl.textContent='⚠️ Developing';}
+  else{sEl.className='status-pill status-nq';sEl.textContent='❌ Needs work';}
+
+  document.getElementById('res-total').innerHTML=result.total+'<span class="score-cell-unit">/10</span>';
+  const used=result.questions.filter(q=>q.asked==='Y').length;
+  const avgQ=used>0?(result.questions.filter(q=>q.asked==='Y').reduce((a,q)=>a+q.quality,0)/used).toFixed(1):'—';
+  document.getElementById('res-qasked').innerHTML=used+'<span class="score-cell-unit">/6</span>';
+  document.getElementById('res-qavg').innerHTML=avgQ+(used>0?'<span class="score-cell-unit">/5</span>':'');
+  document.getElementById('res-verdict').textContent=result.rationale;
+
+  document.getElementById('res-dims').innerHTML=result.dimensions.map(dim=>`
+    <div class="dim-item">
+      <div class="dim-badge dim-${dim.score}">${dim.score}</div>
+      <div class="dim-body">
+        <div class="dim-name">${dim.name}</div>
+        <div class="dim-what">${DIM_DESCRIPTIONS[dim.name]||''}</div>
+        <div class="dim-evidence">${dim.evidence||'—'}</div>
+      </div>
+    </div>`).join('');
+
+  document.getElementById('res-questions').innerHTML=result.questions.map(q=>`
+    <div class="q-item">
+      <div class="q-check ${q.asked==='Y'?'q-y':'q-n'}">${q.asked==='Y'?'✓':'✗'}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="q-stars">${q.asked==='Y'?'★'.repeat(q.quality)+'<span style="opacity:0.2">'+'★'.repeat(5-q.quality)+'</span>':'—'}</div>
+    </div>`).join('');
+
+  document.getElementById('res-coaching').innerHTML=result.coaching.map((c,i)=>`
+    <div class="coaching-item">
+      <div class="coaching-num">${i+1}</div>
+      <div class="coaching-text">${c}</div>
+    </div>`).join('');
+}
+
+function submitToLeaderboard(){
+  if(!currentResult) return;
+  history.unshift({...currentResult, id:Date.now()});
+  if(currentKpi==='s1') kpis[currentSDR].s1++;
+  if(currentKpi==='s2') kpis[currentSDR].s2++;
+  saveState();
+  showToast('🎉','Added to leaderboard!');
+  currentResult=null; currentSDR=null; currentKpi='none';
+  document.getElementById('result-card').classList.remove('visible');
+  document.getElementById('btn-submit').classList.remove('visible');
+  ['sdr-name','account-name','contact-role','kpi-type','transcript'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el.tagName==='TEXTAREA'||el.type==='text') el.value='';
+    else if(el.tagName==='SELECT') el.selectedIndex=0;
+  });
+  setTimeout(()=>showPanel('leaderboard'),500);
+}
+
+function buildData(){
+  return SDRS.map(sdr=>{
+    const calls=history.filter(h=>h.sdr===sdr);
+    const avg=calls.length?parseFloat((calls.reduce((a,c)=>a+c.result.total,0)/calls.length).toFixed(1)):0;
+    const strong=calls.filter(c=>c.result.status==='STRONG COLD CALL').length;
+    return{sdr,calls:calls.length,avgScore:avg,strong,
+      s1:kpis[sdr]?.s1||0,s2:kpis[sdr]?.s2||0,
+      eligible:(kpis[sdr]?.s1||0)>=10&&(kpis[sdr]?.s2||0)>=5&&calls.length>=26,
+      isLeader:LEADERS.includes(sdr)};
+  });
+}
+
+function renderLeaderboard(){
+  const sort=document.getElementById('lb-sort').value;
+  let data=buildData();
+  data.sort((a,b)=>{
+    if(sort==='calls') return b.calls-a.calls;
+    if(sort==='s1') return b.s1-a.s1;
+    if(sort==='s2') return b.s2-a.s2;
+    // Default: avg score, tiebreak by most Strong Cold Calls
+    if(b.avgScore !== a.avgScore) return b.avgScore-a.avgScore;
+    return b.strong-a.strong;
+  });
+  const maxAvg=Math.max(...data.map(d=>d.avgScore),1);
+  const topEligible=data.find(d=>d.eligible);
+
+  document.getElementById('kpi-rows').innerHTML=data.map(d=>{
+    const c=COLORS[d.sdr]||{bg:'#f1f5f9',color:'#475569'};
+    return`<div class="kpi-row">
+      <div class="kpi-sdr-label">
+        <div class="kpi-mini-av" style="background:${c.bg};color:${c.color};">${initials(d.sdr)}</div>
+        ${d.sdr}
+      </div>
+      <div class="kpi-bars-col">
+        <div class="kpi-track"><div class="kpi-fill-s1" style="width:${Math.min(Math.round((d.s1/10)*100),100)}%"></div></div>
+        <div class="kpi-track"><div class="kpi-fill-s2" style="width:${Math.min(Math.round((d.s2/5)*100),100)}%"></div></div>
+      </div>
+      <div class="kpi-vals" style="color:${d.eligible?'var(--green)':'var(--text-3)'}">
+        ${d.s1}/10 · ${d.s2}/5
+      </div>
+    </div>`;
+  }).join('');
+
+  const rankIcons=['🥇','🥈','🥉'];
+  document.getElementById('lb-rows').innerHTML=data.map((d,i)=>{
+    const c=COLORS[d.sdr]||{bg:'#f1f5f9',color:'#475569'};
+    const isWinner=topEligible&&d.sdr===topEligible.sdr;
+    const barPct=maxAvg>0?Math.round((d.avgScore/maxAvg)*100):0;
+    const rankClass=i===0?'rank-1':i===1?'rank-2':i===2?'rank-3':'';
+    const ineligibleReason=d.calls<26?`${d.calls}/26 calls`:d.s1<10?`${d.s1}/10 S1`:`${d.s2}/5 S2`;
+    return`<div class="lb-row">
+      <div class="lb-rank ${rankClass}">${i<3?rankIcons[i]:'#'+(i+1)}</div>
+      <div class="lb-av" style="background:${c.bg};color:${c.color};">${initials(d.sdr)}</div>
+      <div class="lb-info">
+        <div class="lb-name">
+          ${d.sdr}
+          ${isWinner?'<span class="badge-winner">🏆 Current winner</span>':''}
+          ${d.isLeader?'<span class="badge-leader">Leader</span>':''}
+        </div>
+        <div class="lb-meta">
+          ${d.calls}/26 calls · ${d.strong} strong ·
+          ${d.eligible?'<span class="badge-eligible">✓ Eligible</span>':`<span class="badge-ineligible">Needs ${ineligibleReason}</span>`}
+        </div>
+      </div>
+      <div class="lb-kpis">
+        <div class="kpi-tag"><div class="kpi-tag-dot" style="background:var(--green)"></div>${d.s1}/10 S1</div>
+        <div class="kpi-tag"><div class="kpi-tag-dot" style="background:var(--blue)"></div>${d.s2}/5 S2</div>
+      </div>
+      <div class="lb-bar-col"><div class="lb-bar-track"><div class="lb-bar-fill" style="width:${barPct}%"></div></div></div>
+      <div class="lb-score"><span class="lb-score-big">${d.avgScore.toFixed(1)}</span><span class="lb-score-unit">/10</span></div>
+    </div>`;
+  }).join('');
+}
+
+function renderHistory(){
+  const sdrF=document.getElementById('hist-sdr').value;
+  const statusF=document.getElementById('hist-status').value;
+  let data=[...history];
+  if(sdrF) data=data.filter(h=>h.sdr===sdrF);
+  if(statusF) data=data.filter(h=>h.result.status===statusF);
+  const el=document.getElementById('history-list');
+  if(!data.length){
+    el.innerHTML=`<div class="empty"><div class="empty-emoji">📞</div><div class="empty-title">No calls yet</div><div class="empty-sub">Submit your first cold call from the Submit tab</div></div>`;
+    return;
+  }
+  el.innerHTML=data.map(h=>{
+    const c=COLORS[h.sdr]||{bg:'#f1f5f9',color:'#475569'};
+    const statusClass=h.result.status==='STRONG COLD CALL'?'status-q':h.result.status==='DEVELOPING'?'status-n':'status-nq';
+    const statusLabel=h.result.status==='STRONG COLD CALL'?'✅ Strong':h.result.status==='DEVELOPING'?'⚠️ Developing':'❌ Needs work';
+    const scoreColor=h.result.total>=7?'var(--green)':h.result.total>=4?'var(--amber)':'var(--red)';
+    return`<div class="hist-card">
+      <div class="hist-av" style="background:${c.bg};color:${c.color};">${initials(h.sdr)}</div>
+      <div class="hist-info">
+        <div class="hist-account">${h.account}${h.role?' · '+h.role:''}</div>
+        <div class="hist-meta">${h.sdr} · ${h.date}</div>
+        <div style="margin-top:6px;"><span class="status-pill ${statusClass}" style="font-size:11px;padding:3px 10px;">${statusLabel}</span></div>
+      </div>
+      <div class="hist-score" style="color:${scoreColor}">${h.result.total}<span class="hist-score-unit">/10</span></div>
+    </div>`;
+  }).join('');
+}
+
+function showToast(icon,msg){
+  document.getElementById('toast-icon').textContent=icon+' ';
+  document.getElementById('toast-msg').textContent=msg;
+  const t=document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+loadState();
+renderLeaderboard();
+</script>
+</body>
+</html>
