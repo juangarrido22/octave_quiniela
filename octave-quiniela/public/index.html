@@ -101,6 +101,11 @@ textarea.field-control{min-height:160px;resize:vertical;font-size:13px;line-heig
 
 .transcript-hint{font-size:11px;color:var(--text-3);margin-top:5px;line-height:1.5;}
 .transcript-hint strong{color:var(--text-2);}
+.upload-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap;}
+.btn-upload{background:var(--surface2);border:1.5px dashed var(--border-strong);border-radius:var(--radius-xs);color:var(--text-2);font-family:var(--font);font-size:12px;font-weight:700;padding:8px 14px;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all 0.15s;}
+.btn-upload:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-light);}
+.btn-upload:disabled{opacity:0.5;cursor:not-allowed;}
+.upload-status{font-size:11px;color:var(--text-3);font-weight:600;}
 
 .btn-analyze{width:100%;background:var(--accent);color:#fff;border:none;border-radius:var(--radius-sm);padding:14px;font-family:var(--font);font-size:14px;font-weight:700;cursor:pointer;margin-top:12px;transition:all 0.18s;display:flex;align-items:center;justify-content:center;gap:8px;}
 .btn-analyze:hover{background:var(--accent-dark);transform:translateY(-1px);box-shadow:0 4px 16px rgba(255,92,53,0.35);}
@@ -348,9 +353,16 @@ textarea.field-control{min-height:160px;resize:vertical;font-size:13px;line-heig
 
       <div class="field">
         <label class="field-label">Call transcript or notes</label>
+        <div class="upload-row">
+          <button type="button" class="btn-upload" id="upload-btn" onclick="document.getElementById('audio-file-input').click()">
+            <span>🎙️</span> Upload recording &amp; auto-transcribe
+          </button>
+          <input type="file" id="audio-file-input" accept="audio/*,video/*" style="display:none" onchange="handleAudioUpload(event)" />
+          <span class="upload-status" id="upload-status"></span>
+        </div>
         <textarea id="transcript" class="field-control" placeholder="Paste your Salesloft transcript here, or write out what you said during the call. Include your opener, pitch, any objections you handled, and how you closed..."></textarea>
         <div class="transcript-hint">
-          💡 <strong>From Salesloft:</strong> Open the call recording → click the Transcript tab → copy and paste here. No prospect responses needed — just your side of the call.
+          💡 <strong>From Salesloft:</strong> Open the call recording → click the Transcript tab → copy and paste here — or upload the recording above to auto-transcribe. No prospect responses needed — just your side of the call.
         </div>
       </div>
 
@@ -520,6 +532,47 @@ function showPanel(id){
   document.getElementById('panel-'+id).classList.add('active');
   if(id==='leaderboard') renderLeaderboard();
   if(id==='history') renderHistory();
+}
+
+async function handleAudioUpload(event){
+  const file = event.target.files[0];
+  if(!file) return;
+  const statusEl = document.getElementById('upload-status');
+  const btn = document.getElementById('upload-btn');
+  const MAX_BYTES = 24*1024*1024;
+  if(file.size > MAX_BYTES){
+    showToast('⚠️','File too large — keep it under ~24MB');
+    event.target.value='';
+    return;
+  }
+  btn.disabled = true;
+  statusEl.textContent = '⏳ Transcribing...';
+  try{
+    const base64 = await fileToBase64(file);
+    const res = await fetch('/api/transcribe',{
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ audioBase64: base64, filename: file.name, mimetype: file.type })
+    });
+    const data = await res.json();
+    if(!res.ok || !data.text){ throw new Error(data.error || 'Transcription failed'); }
+    document.getElementById('transcript').value = data.text;
+    statusEl.textContent = '✅ Transcribed';
+    showToast('🎙️','Recording transcribed');
+  }catch(e){
+    statusEl.textContent = '';
+    showToast('⚠️', e.message || 'Could not transcribe recording');
+  }
+  btn.disabled = false;
+  event.target.value='';
+}
+
+function fileToBase64(file){
+  return new Promise((resolve,reject)=>{
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result.split(',')[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
 }
 
 async function analyzeCall(){
