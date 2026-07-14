@@ -39,15 +39,17 @@
 
 ---
 
-### Step 4 — Add your API key as an environment variable
-This is the critical step — the key lives here, never in the code.
+### Step 4 — Add your API keys as environment variables
+This is the critical step — the keys live here, never in the code.
 
 1. In Netlify, go to your site → **Site configuration**
 2. Click **Environment variables** → **Add a variable**
-3. Key: `ANTHROPIC_API_KEY`
-4. Value: paste your `sk-ant-...` key
+3. Key: `ANTHROPIC_API_KEY` → Value: paste your `sk-ant-...` key
+4. Add another variable: Key: `OPENAI_API_KEY` → Value: paste your `sk-...` key from **platform.openai.com** (used for the "Upload recording & auto-transcribe" button — Whisper transcription costs ~$0.006/min of audio)
 5. Click **Save**
 6. Go to **Deploys** → **Trigger deploy** → **Deploy site**
+
+Note: Netlify Functions cap request bodies at ~6-24MB depending on plan, so the upload button works best for recordings under ~10-15 minutes of compressed audio (mp3/m4a). Longer calls should still use copy-paste from the Salesloft transcript tab.
 
 ---
 
@@ -79,7 +81,8 @@ octave-quiniela/
 ├── netlify.toml              # Netlify config
 ├── netlify/
 │   └── functions/
-│       └── analyze.js        # Serverless function (holds API key)
+│       ├── analyze.js        # Scores the call (Anthropic API key)
+│       └── transcribe.js     # Transcribes uploaded recordings (OpenAI Whisper API key)
 └── public/
     └── index.html            # The full app
 ```
