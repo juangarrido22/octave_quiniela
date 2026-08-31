@@ -1,22 +1,5 @@
 [build]
-  publish = "public"
   functions = "netlify/functions"
 
 [functions]
-  included_files = ["netlify/functions/**"]
-
-[functions.analyze]
-  timeout = 30
-
-[functions.transcribe]
-  timeout = 30
-
-[[redirects]]
-  from = "/api/analyze"
-  to = "/.netlify/functions/analyze"
-  status = 200
-
-[[redirects]]
-  from = "/api/transcribe"
-  to = "/.netlify/functions/transcribe"
-  status = 200
+  node_bundler = "esbuild"
