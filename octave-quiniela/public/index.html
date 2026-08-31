@@ -69,7 +69,6 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:1
 .prize-eyebrow{font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.75);margin-bottom:6px;}
 .prize-headline{font-size:26px;font-weight:800;color:#fff;line-height:1.15;margin-bottom:14px;letter-spacing:-0.02em;}
 .prize-options{display:flex;gap:8px;flex-wrap:wrap;}
-.prize-note{font-size:12px;font-weight:600;color:rgba(255,255,255,0.75);margin-top:10px;}
 .prize-chip{background:rgba(255,255,255,0.22);border:1px solid rgba(255,255,255,0.35);backdrop-filter:blur(4px);border-radius:20px;padding:6px 14px;font-size:13px;font-weight:700;color:#fff;display:flex;align-items:center;gap:6px;}
 
 .kpi-alert{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 18px;margin-bottom:1.25rem;display:flex;align-items:flex-start;gap:12px;}
@@ -101,11 +100,6 @@ textarea.field-control{min-height:160px;resize:vertical;font-size:13px;line-heig
 
 .transcript-hint{font-size:11px;color:var(--text-3);margin-top:5px;line-height:1.5;}
 .transcript-hint strong{color:var(--text-2);}
-.upload-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap;}
-.btn-upload{background:var(--surface2);border:1.5px dashed var(--border-strong);border-radius:var(--radius-xs);color:var(--text-2);font-family:var(--font);font-size:12px;font-weight:700;padding:8px 14px;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all 0.15s;}
-.btn-upload:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-light);}
-.btn-upload:disabled{opacity:0.5;cursor:not-allowed;}
-.upload-status{font-size:11px;color:var(--text-3);font-weight:600;}
 
 .btn-analyze{width:100%;background:var(--accent);color:#fff;border:none;border-radius:var(--radius-sm);padding:14px;font-family:var(--font);font-size:14px;font-weight:700;cursor:pointer;margin-top:12px;transition:all 0.18s;display:flex;align-items:center;justify-content:center;gap:8px;}
 .btn-analyze:hover{background:var(--accent-dark);transform:translateY(-1px);box-shadow:0 4px 16px rgba(255,92,53,0.35);}
@@ -279,10 +273,8 @@ textarea.field-control{min-height:160px;resize:vertical;font-size:13px;line-heig
       <div class="prize-eyebrow">Q3 2026 · Winner takes all</div>
       <div class="prize-headline">Go deeper.<br>Win bigger.</div>
       <div class="prize-options">
-        <div class="prize-chip">🎧 Apple AirPods Max</div>
-        <div class="prize-chip">✈️ Flight voucher</div>
+        <div class="prize-chip">💶 €350 voucher</div>
       </div>
-      <div class="prize-note">Winner picks one</div>
     </div>
 
     <div class="kpi-alert">
@@ -324,6 +316,7 @@ textarea.field-control{min-height:160px;resize:vertical;font-size:13px;line-heig
             <option>Xav</option><option>Julie</option><option>Olga</option>
             <option>Tibor</option><option>Olivier</option><option>Daria</option>
             <option>Ilaria</option><option>Rayan</option><option>Camila</option>
+            <option>Nicolas Rodríguez</option>
             <option value="Andrea">Andrea (Leader)</option>
             <option value="Juergen">Juergen (Leader)</option>
             <option value="Simone">Simone (Leader)</option>
@@ -353,17 +346,13 @@ textarea.field-control{min-height:160px;resize:vertical;font-size:13px;line-heig
 
       <div class="field">
         <label class="field-label">Call transcript or notes</label>
-        <div class="upload-row">
-          <button type="button" class="btn-upload" id="upload-btn" onclick="document.getElementById('audio-file-input').click()">
-            <span>🎙️</span> Upload recording &amp; auto-transcribe
-          </button>
-          <input type="file" id="audio-file-input" accept="audio/*,video/*" style="display:none" onchange="handleAudioUpload(event)" />
-          <span class="upload-status" id="upload-status"></span>
-        </div>
         <textarea id="transcript" class="field-control" placeholder="Paste your Salesloft transcript here, or write out what you said during the call. Include your opener, pitch, any objections you handled, and how you closed..."></textarea>
         <div class="transcript-hint">
-          💡 <strong>From Salesloft:</strong> Open the call recording → click the Transcript tab → copy and paste here — or upload the recording above to auto-transcribe. No prospect responses needed — just your side of the call.
+          💡 <strong>From Salesloft:</strong> Open the call recording → click the Transcript tab → copy and paste here. No prospect responses needed — just your side of the call.
         </div>
+        <a href="https://tactiq.io/tools/audio-to-text" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:7px;margin-top:10px;background:#f5f3ef;border:1.5px solid #e8e4de;border-radius:8px;padding:8px 14px;font-size:12px;font-weight:700;color:#5a5550;text-decoration:none;transition:all 0.18s;" onmouseover="this.style.borderColor='#ff5c35';this.style.color='#ff5c35';" onmouseout="this.style.borderColor='#e8e4de';this.style.color='#5a5550';">
+          🎙️ No transcript yet? Convert your MP3 here → Tactiq
+        </a>
       </div>
 
       <button class="btn-analyze" id="analyze-btn" onclick="analyzeCall()">
@@ -456,6 +445,7 @@ textarea.field-control{min-height:160px;resize:vertical;font-size:13px;line-heig
         <option>Xav</option><option>Julie</option><option>Olga</option>
         <option>Tibor</option><option>Olivier</option><option>Daria</option>
         <option>Ilaria</option><option>Rayan</option><option>Camila</option>
+        <option>Nicolas Rodríguez</option>
         <option>Andrea</option><option>Juergen</option><option>Simone</option>
         <option>Juan</option>
       </select>
@@ -474,10 +464,22 @@ textarea.field-control{min-height:160px;resize:vertical;font-size:13px;line-heig
 <div class="toast" id="toast"><span id="toast-icon"></span><span id="toast-msg"></span></div>
 
 <script>
-const STORAGE_H = 'octave_q3_coldcall_v1';
-const STORAGE_K = 'octave_q3_kpis_v2';
+// ── Supabase ─────────────────────────────────────────────────────────────────
+const SB_URL = 'https://nbtnxgdmtjjazkifywem.supabase.co';
+const SB_KEY = 'sb_publishable_PcPhMbWz6Bg9rngc_-4ylg_1U5W8EpF';
+const SB_HDR = { 'Content-Type': 'application/json', 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY };
+async function sbGet(table, params) {
+  const url = params ? `${SB_URL}/rest/v1/${table}?${params}` : `${SB_URL}/rest/v1/${table}`;
+  const r = await fetch(url, { headers: SB_HDR }); return r.json();
+}
+async function sbPost(table, body) {
+  return fetch(`${SB_URL}/rest/v1/${table}`, { method:'POST', headers:{...SB_HDR,'Prefer':'return=minimal'}, body:JSON.stringify(body) });
+}
+async function sbUpsert(table, body) {
+  return fetch(`${SB_URL}/rest/v1/${table}`, { method:'POST', headers:{...SB_HDR,'Prefer':'resolution=merge-duplicates,return=minimal'}, body:JSON.stringify(body) });
+}
 
-const SDRS = ['Xav','Julie','Olga','Tibor','Olivier','Daria','Ilaria','Rayan','Camila','Andrea','Juergen','Simone','Juan'];
+const SDRS = ['Xav','Julie','Olga','Tibor','Olivier','Daria','Ilaria','Rayan','Camila','Nicolas Rodríguez','Andrea','Juergen','Simone','Juan'];
 const LEADERS = ['Andrea','Juergen','Simone','Juan'];
 
 const COLORS = {
@@ -494,6 +496,7 @@ const COLORS = {
   Juergen: {bg:'#f1f5f9',color:'#475569'},
   Simone:  {bg:'#fdf4ff',color:'#a21caf'},
   Juan:    {bg:'#e0f2fe',color:'#0369a1'},
+  'Nicolas Rodríguez': {bg:'#f0fdf4',color:'#15803d'},
 };
 
 const DIM_DESCRIPTIONS = {
@@ -508,17 +511,26 @@ function initials(n){ return n.slice(0,2).toUpperCase(); }
 
 let history=[], kpis={}, currentResult=null, currentSDR=null, currentKpi='none';
 
-function loadState(){
-  try{ history=JSON.parse(localStorage.getItem(STORAGE_H)||'[]'); }catch{ history=[]; }
-  try{ kpis=JSON.parse(localStorage.getItem(STORAGE_K)||'{}'); }catch{ kpis={}; }
-  SDRS.forEach(s=>{ if(!kpis[s]) kpis[s]={s1:0,s2:0}; });
+async function loadState(){
+  try {
+    const [callRows, kpiRows] = await Promise.all([
+      sbGet('calls','order=created_at.desc'), sbGet('kpis','')
+    ]);
+    history = (callRows||[]).map(r=>({id:r.id,sdr:r.sdr,account:r.account,role:r.role,date:r.date,result:r.result}));
+    kpis = {};
+    SDRS.forEach(s=>{ kpis[s]={s1:0,s2:0}; });
+    (kpiRows||[]).forEach(r=>{ kpis[r.sdr]={s1:r.s1||0,s2:r.s2||0}; });
+  } catch(e){ console.error('Load error',e); }
   updateNavCount();
 }
-
-function saveState(){
-  localStorage.setItem(STORAGE_H, JSON.stringify(history));
-  localStorage.setItem(STORAGE_K, JSON.stringify(kpis));
-  updateNavCount();
+async function saveCall(entry, kpiType){
+  await sbPost('calls',{sdr:entry.sdr,account:entry.account,role:entry.role||null,date:entry.date,result:entry.result});
+  if(kpiType==='s1'||kpiType==='s2'){
+    const cur=kpis[entry.sdr]||{s1:0,s2:0};
+    const upd={sdr:entry.sdr,s1:cur.s1+(kpiType==='s1'?1:0),s2:cur.s2+(kpiType==='s2'?1:0)};
+    await sbUpsert('kpis',upd);
+    kpis[entry.sdr]={s1:upd.s1,s2:upd.s2};
+  }
 }
 
 function updateNavCount(){
@@ -532,47 +544,6 @@ function showPanel(id){
   document.getElementById('panel-'+id).classList.add('active');
   if(id==='leaderboard') renderLeaderboard();
   if(id==='history') renderHistory();
-}
-
-async function handleAudioUpload(event){
-  const file = event.target.files[0];
-  if(!file) return;
-  const statusEl = document.getElementById('upload-status');
-  const btn = document.getElementById('upload-btn');
-  const MAX_BYTES = 24*1024*1024;
-  if(file.size > MAX_BYTES){
-    showToast('⚠️','File too large — keep it under ~24MB');
-    event.target.value='';
-    return;
-  }
-  btn.disabled = true;
-  statusEl.textContent = '⏳ Transcribing...';
-  try{
-    const base64 = await fileToBase64(file);
-    const res = await fetch('/api/transcribe',{
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ audioBase64: base64, filename: file.name, mimetype: file.type })
-    });
-    const data = await res.json();
-    if(!res.ok || !data.text){ throw new Error(data.error || 'Transcription failed'); }
-    document.getElementById('transcript').value = data.text;
-    statusEl.textContent = '✅ Transcribed';
-    showToast('🎙️','Recording transcribed');
-  }catch(e){
-    statusEl.textContent = '';
-    showToast('⚠️', e.message || 'Could not transcribe recording');
-  }
-  btn.disabled = false;
-  event.target.value='';
-}
-
-function fileToBase64(file){
-  return new Promise((resolve,reject)=>{
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result.split(',')[1]);
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
 }
 
 async function analyzeCall(){
@@ -593,70 +564,13 @@ async function analyzeCall(){
   document.getElementById('result-card').classList.remove('visible');
   document.getElementById('btn-submit').classList.remove('visible');
 
-  const sys = `You are a cold call coaching analyst for Octave (spun off from Hexagon), an industrial digitalization company covering EMIA.
-Octave's ADRs make cold calls via Salesloft to large industrial enterprises (Repsol, CEPSA, Galp, Eni, TotalEnergies, BASF, etc).
-
-IMPORTANT CONTEXT: You only hear the ADR's side of the call — not the prospect. This is intentional.
-You are scoring the ADR's TECHNIQUE and SETUP quality, not the prospect's responses.
-The goal is to assess whether the ADR created the conditions for a real conversation to happen.
-Score what the ADR DID — their language, their questions, their framing — not what the prospect said back.
-
-SCORING DIMENSIONS (0-2 each, max 10 total):
-
-Situation (0-2): Did the ADR demonstrate knowledge of the prospect's world BEFORE pitching?
-  0 = Generic opener with no situational awareness. Could have called anyone.
-  1 = Brief reference to industry or role but surface-level, no specifics.
-  2 = Clear signal they know this company/role — referenced specific context, industry pain, or company situation.
-
-Pain (0-2): Did the ADR name a specific pain relevant to this profile AND create space for the prospect to confirm or deny it?
-  0 = Pitched features/product with no mention of a problem. Or named pain too generically.
-  1 = Named a pain but didn't make it feel specific to this person, or didn't pause/invite confirmation.
-  2 = Named a sharp, specific pain for this industry/role AND asked a question or paused to let the prospect engage with it.
-
-Impact (0-2): Did the ADR connect the pain to a real business consequence — cost, risk, time, compliance, productivity?
-  0 = No business impact mentioned. Just product or features.
-  1 = Vague reference to "saving time" or "improving efficiency" without specifics.
-  2 = Named a tangible consequence — hours lost, cost of downtime, compliance risk, revenue impact — relevant to their industry.
-
-Right Account (0-2): Did the ADR demonstrate why THIS specific company is a fit for Octave, not a generic pitch?
-  0 = Nothing company-specific. Could have been sent to any prospect.
-  1 = Mentioned the industry but no company-specific angle.
-  2 = Referenced something specific about this company — size, known challenge, plant environment, recent news, or sector fit — that shows research.
-
-Right Persona (0-2): Did the ADR address this person's specific role and priorities, not deliver a generic pitch?
-  0 = No reference to the contact's role or responsibilities.
-  1 = Mentioned the role name but didn't tailor the message to what that role actually cares about.
-  2 = Spoke directly to this persona's priorities — what they're responsible for, what keeps them up at night — in language that resonates with that role.
-
-QUALIFICATION THRESHOLDS:
-7-10 = STRONG COLD CALL — Good depth, real attempt to engage.
-4-6 = DEVELOPING — Some technique present but gaps. Key dimensions missing.
-0-3 = NEEDS WORK — Generic pitch, no depth attempt.
-
-TECHNIQUE CHECKLIST — assess whether the ADR used each technique:
-1. "Pattern interrupt opener" — Did they open with something unexpected that earns attention, not a standard "Hi I'm X from Y"?
-2. "Named a specific company/role context" — Did they reference something specific to this prospect's situation?
-3. "Stated a specific pain, not a feature" — Did they lead with a problem, not a product?
-4. "Created space — asked a question or paused" — Did they invite the prospect to respond rather than monologue?
-5. "Mentioned a business impact or consequence" — Did they make the pain feel costly or urgent?
-6. "Clear single CTA" — Did they end with one clear, easy ask?
-
-SCORING SCALE for technique quality (1-5): 1=very weak, 2=weak, 3=average, 4=good, 5=excellent.
-
-Respond ONLY with compact valid JSON, no markdown, no extra text:
-{"total":<0-10>,"status":"STRONG COLD CALL"|"DEVELOPING"|"NEEDS WORK","rationale":"<max 18 words, specific to what they did or didn't do>","dimensions":[{"name":"Situation","score":0|1|2,"evidence":"<what the ADR said or didn't say, max 14 words>"},{"name":"Pain","score":0|1|2,"evidence":"<max 14 words>"},{"name":"Impact","score":0|1|2,"evidence":"<max 14 words>"},{"name":"Right Account","score":0|1|2,"evidence":"<max 14 words>"},{"name":"Right Persona","score":0|1|2,"evidence":"<max 14 words>"}],"questions":[{"q":"Pattern interrupt opener","asked":"Y"|"N","quality":1|2|3|4|5},{"q":"Named specific company/role context","asked":"Y"|"N","quality":1|2|3|4|5},{"q":"Led with a specific pain, not a feature","asked":"Y"|"N","quality":1|2|3|4|5},{"q":"Created space — asked a question or paused","asked":"Y"|"N","quality":1|2|3|4|5},{"q":"Named a business impact or consequence","asked":"Y"|"N","quality":1|2|3|4|5},{"q":"Clear single CTA","asked":"Y"|"N","quality":1|2|3|4|5}],"coaching":["<very specific, reference exactly what they said or missed, point 1>","<point 2>","<point 3>"]}`;
-
   try {
-    const res = await fetch('/api/analyze',{
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({
-        model:'claude-sonnet-4-20250514', max_tokens:1000, system:sys,
-        messages:[{role:'user', content:`ADR: ${sdr}\nAccount: ${account}\nContact role: ${role||'unknown'}\n\nCALL TRANSCRIPT (ADR side only):\n${transcript}`}]
-      })
+    const res = await fetch('/.netlify/functions/score', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sdr, account, role, transcript })
     });
-    const data = await res.json();
-    const raw = data.content.map(i=>i.text||'').join('').replace(/```json|```/g,'').trim();
-    const result = JSON.parse(raw);
+    const result = await res.json();
     currentResult = {sdr, account, role, date:new Date().toLocaleDateString('en-GB'), result};
     renderResult(currentResult);
   } catch(e) {
@@ -710,21 +624,28 @@ function renderResult(d){
     </div>`).join('');
 }
 
-function submitToLeaderboard(){
+async function submitToLeaderboard(){
   if(!currentResult) return;
-  history.unshift({...currentResult, id:Date.now()});
-  if(currentKpi==='s1') kpis[currentSDR].s1++;
-  if(currentKpi==='s2') kpis[currentSDR].s2++;
-  saveState();
-  showToast('🎉','Added to leaderboard!');
+  const btn=document.getElementById('btn-submit');
+  btn.disabled=true; btn.textContent='Saving...';
+  try {
+    await saveCall(currentResult,currentKpi);
+    history.unshift({...currentResult,id:Date.now()});
+    updateNavCount();
+    showToast('🎉','Added to leaderboard!');
+  } catch(e){
+    showToast('❌','Save failed. Try again.');
+    btn.disabled=false; btn.textContent='✅ Submit to Leaderboard'; return;
+  }
   currentResult=null; currentSDR=null; currentKpi='none';
   document.getElementById('result-card').classList.remove('visible');
-  document.getElementById('btn-submit').classList.remove('visible');
+  btn.classList.remove('visible'); btn.disabled=false; btn.textContent='✅ Submit to Leaderboard';
   ['sdr-name','account-name','contact-role','kpi-type','transcript'].forEach(id=>{
     const el=document.getElementById(id);
     if(el.tagName==='TEXTAREA'||el.type==='text') el.value='';
     else if(el.tagName==='SELECT') el.selectedIndex=0;
   });
+  await loadState();
   setTimeout(()=>showPanel('leaderboard'),500);
 }
 
@@ -740,7 +661,8 @@ function buildData(){
   });
 }
 
-function renderLeaderboard(){
+async function renderLeaderboard(){
+  await loadState();
   const sort=document.getElementById('lb-sort').value;
   let data=buildData();
   data.sort((a,b)=>{
@@ -802,7 +724,8 @@ function renderLeaderboard(){
   }).join('');
 }
 
-function renderHistory(){
+async function renderHistory(){
+  await loadState();
   const sdrF=document.getElementById('hist-sdr').value;
   const statusF=document.getElementById('hist-status').value;
   let data=[...history];
@@ -838,8 +761,7 @@ function showToast(icon,msg){
   setTimeout(()=>t.classList.remove('show'),2500);
 }
 
-loadState();
-renderLeaderboard();
+loadState().then(()=>updateNavCount());
 </script>
 </body>
 </html>
