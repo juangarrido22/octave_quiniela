@@ -314,8 +314,8 @@ textarea.field-control{min-height:160px;resize:vertical;font-size:13px;line-heig
           <select id="sdr-name" class="field-control">
             <option value="">Select...</option>
             <option>Xav</option><option>Julie</option><option>Olga</option>
-            <option>Tibor</option><option>Olivier</option><option>Daria</option>
-            <option>Ilaria</option><option>Rayan</option><option>Camila</option>
+            <option>Olivier</option><option>Daria</option>
+            <option>Ilaria</option><option>Rayan</option>
             <option>Nicolas Rodríguez</option>
             <option value="Andrea">Andrea (Leader)</option>
             <option value="Juergen">Juergen (Leader)</option>
@@ -443,8 +443,8 @@ textarea.field-control{min-height:160px;resize:vertical;font-size:13px;line-heig
       <select id="hist-sdr" onchange="renderHistory()">
         <option value="">All ADRs</option>
         <option>Xav</option><option>Julie</option><option>Olga</option>
-        <option>Tibor</option><option>Olivier</option><option>Daria</option>
-        <option>Ilaria</option><option>Rayan</option><option>Camila</option>
+        <option>Olivier</option><option>Daria</option>
+        <option>Ilaria</option><option>Rayan</option>
         <option>Nicolas Rodríguez</option>
         <option>Andrea</option><option>Juergen</option><option>Simone</option>
         <option>Juan</option>
@@ -479,7 +479,7 @@ async function sbUpsert(table, body) {
   return fetch(`${SB_URL}/rest/v1/${table}`, { method:'POST', headers:{...SB_HDR,'Prefer':'resolution=merge-duplicates,return=minimal'}, body:JSON.stringify(body) });
 }
 
-const SDRS = ['Xav','Julie','Olga','Tibor','Olivier','Daria','Ilaria','Rayan','Camila','Nicolas Rodríguez','Andrea','Juergen','Simone','Juan'];
+const SDRS = ['Xav','Julie','Olga','Olivier','Daria','Ilaria','Rayan','Nicolas Rodríguez','Andrea','Juergen','Simone','Juan'];
 const LEADERS = ['Andrea','Juergen','Simone','Juan'];
 
 const COLORS = {
@@ -491,7 +491,6 @@ const COLORS = {
   Daria:   {bg:'#fdf2f8',color:'#db2777'},
   Ilaria:  {bg:'#f0fdf4',color:'#16a34a'},
   Rayan:   {bg:'#f0f9ff',color:'#0284c7'},
-  Camila:  {bg:'#fff7ed',color:'#ea580c'},
   Andrea:  {bg:'#faf5ff',color:'#7c3aed'},
   Juergen: {bg:'#f1f5f9',color:'#475569'},
   Simone:  {bg:'#fdf4ff',color:'#a21caf'},
