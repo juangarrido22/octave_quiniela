@@ -46,15 +46,20 @@ Respond ONLY with compact valid JSON, no markdown:
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-api-key': ANTHROPIC_KEY, 'anthropic-version': '2023-06-01' },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-5', max_tokens: 1000, system: sys,
+        model: 'claude-sonnet-4-5-20251001', max_tokens: 2000, system: sys,
         messages: [{ role: 'user', content: `ADR: ${sdr}\nAccount: ${account}\nContact role: ${role||'unknown'}\n\nCALL TRANSCRIPT (ADR side only):\n${transcript}` }]
       })
     });
     const data = await res.json();
     const raw = data.content.map(i => i.text||'').join('').replace(/```json|```/g,'').trim();
+    // Extract JSON object if wrapped in other text
+    const jsonMatch = raw.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) {
+      return { statusCode: 500, body: JSON.stringify({ error: 'No JSON found', raw: raw.slice(0, 500) }) };
+    }
     let result;
     try {
-      result = JSON.parse(raw);
+      result = JSON.parse(jsonMatch[0]);
     } catch(parseErr) {
       return { statusCode: 500, body: JSON.stringify({ error: 'JSON parse failed', raw: raw.slice(0, 500) }) };
     }
