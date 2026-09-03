@@ -569,6 +569,9 @@ async function analyzeCall(){
       body: JSON.stringify({ sdr, account, role, transcript })
     });
     const result = await res.json();
+    if (result.error || typeof result.total === 'undefined') {
+      throw new Error(result.error || 'Invalid response from scoring function');
+    }
     currentResult = {sdr, account, role, date:new Date().toLocaleDateString('en-GB'), result};
     renderResult(currentResult);
   } catch(e) {
