@@ -46,7 +46,7 @@ Respond ONLY with compact valid JSON, no markdown:
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-api-key': ANTHROPIC_KEY, 'anthropic-version': '2023-06-01' },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-5-20251001', max_tokens: 2000, system: sys,
+        model: 'claude-sonnet-4-6', max_tokens: 2000, system: sys,
         messages: [{ role: 'user', content: `ADR: ${sdr}\nAccount: ${account}\nContact role: ${role||'unknown'}\n\nCALL TRANSCRIPT (ADR side only):\n${transcript}` }]
       })
     });
