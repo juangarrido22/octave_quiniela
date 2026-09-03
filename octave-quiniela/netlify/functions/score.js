@@ -46,13 +46,21 @@ Respond ONLY with compact valid JSON, no markdown:
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-api-key': ANTHROPIC_KEY, 'anthropic-version': '2023-06-01' },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514', max_tokens: 1000, system: sys,
+        model: 'claude-sonnet-4-5', max_tokens: 1000, system: sys,
         messages: [{ role: 'user', content: `ADR: ${sdr}\nAccount: ${account}\nContact role: ${role||'unknown'}\n\nCALL TRANSCRIPT (ADR side only):\n${transcript}` }]
       })
     });
     const data = await res.json();
     const raw = data.content.map(i => i.text||'').join('').replace(/```json|```/g,'').trim();
-    const result = JSON.parse(raw);
+    let result;
+    try {
+      result = JSON.parse(raw);
+    } catch(parseErr) {
+      return { statusCode: 500, body: JSON.stringify({ error: 'JSON parse failed', raw: raw.slice(0, 500) }) };
+    }
+    if (typeof result.total === 'undefined') {
+      return { statusCode: 500, body: JSON.stringify({ error: 'Missing total field', raw: raw.slice(0, 500) }) };
+    }
     return { statusCode: 200, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(result) };
   } catch(e) {
     return { statusCode: 500, body: JSON.stringify({ error: e.message }) };
